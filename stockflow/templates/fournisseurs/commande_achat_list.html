@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Commandes d'achat — StockFlow{% endblock %}
+{% block header_title %}Commandes d'achat{% endblock %}
+{% block header_breadcrumb %}
+<nav class="flex items-center gap-2 text-sm text-surface-500">
+  <a href="{% url 'dashboard' %}" class="hover:text-brand-600 transition-colors">Tableau de bord</a>
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <span class="text-surface-900 font-medium">Commandes d'achat</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <p class="text-surface-500 mt-1">{{ commandes|length }} commande{{ commandes|length|pluralize }}</p>
+    <a href="{% url 'commande_achat_create' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all duration-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Nouvelle commande
+    </a>
+  </div>
+
+  <div class="rounded-2xl bg-white ring-1 ring-surface-200/60 shadow-card overflow-hidden">
+    {% if commandes %}
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-surface-100">
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider">Référence</th>
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider">Fournisseur</th>
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider">Statut</th>
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider">Date</th>
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider text-right">Montant</th>
+            <th class="px-6 py-4 text-xs font-semibold text-surface-500 uppercase tracking-wider text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-surface-50">
+          {% for c in commandes %}
+          <tr class="hover:bg-surface-50/50 transition-colors">
+            <td class="px-6 py-4">
+              <span class="font-mono text-sm font-medium text-brand-600">{{ c.reference }}</span>
+            </td>
+            <td class="px-6 py-4">
+              <span class="font-medium text-surface-900">{{ c.fournisseur }}</span>
+            </td>
+            <td class="px-6 py-4">
+              {% if c.statut == 'brouillon' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-100 text-surface-600 ring-1 ring-surface-200">{{ c.get_statut_display }}</span>
+              {% elif c.statut == 'envoyee' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-blue-200">{{ c.get_statut_display }}</span>
+              {% elif c.statut == 'confirmee' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 ring-1 ring-amber-200">{{ c.get_statut_display }}</span>
+              {% elif c.statut == 'recue' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200">{{ c.get_statut_display }}</span>
+              {% elif c.statut == 'annulee' %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 ring-1 ring-rose-200">{{ c.get_statut_display }}</span>
+              {% else %}
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-100 text-surface-600">{{ c.get_statut_display }}</span>
+              {% endif %}
+            </td>
+            <td class="px-6 py-4">
+              <span class="text-surface-500 text-sm">{{ c.date_commande|date:"d/m/Y" }}</span>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <span class="font-semibold text-surface-900">{{ c.montant_total }}</span>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-center gap-1">
+                <a href="{% url 'commande_achat_detail' c.pk %}" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-surface-500 hover:bg-surface-50 hover:text-surface-700 transition-colors" title="Voir">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                </a>
+                <a href="{% url 'commande_achat_edit' c.pk %}" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-brand-600 hover:bg-brand-50 hover:text-brand-700 transition-colors" title="Modifier">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </a>
+                <a href="{% url 'commande_achat_delete' c.pk %}" class="inline-flex items-center justify-center w-9 h-9 rounded-xl text-rose-500 hover:bg-rose-50 hover:text-rose-600 transition-colors" title="Supprimer">
+                  <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="flex flex-col items-center justify-center py-16 px-6">
+      <div class="w-20 h-20 rounded-2xl bg-surface-100 flex items-center justify-center mb-6">
+        <svg class="w-10 h-10 text-surface-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <h3 class="text-lg font-semibold text-surface-900 mb-2">Aucune commande</h3>
+      <p class="text-surface-500 text-center mb-6 max-w-sm">Créez des commandes d'achat auprès de vos fournisseurs.</p>
+      <a href="{% url 'commande_achat_create' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-500 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all duration-200">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Nouvelle commande
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — StockFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#edf2ff', 100: '#dbe4ff', 200: '#bac8ff', 300: '#91a7ff',
+              400: '#748ffc', 500: '#4c6ef5', 600: '#4263eb', 700: '#3b5bdb',
+              800: '#364fc7', 900: '#2b3f9e',
+            },
+            surface: {
+              50: '#f8f9fc', 100: '#f1f3f8', 200: '#e4e7f0',
+              300: '#d1d5e4', 700: '#4a5068', 800: '#2d3348', 900: '#1a1f2e',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    *, *::before, *::after { font-family: 'Inter', system-ui, sans-serif; }
+    .form-input {
+      @apply w-full px-4 py-3 rounded-xl border border-surface-200 bg-white text-surface-900
+             placeholder:text-surface-300 transition-all duration-300
+             focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500
+             hover:border-brand-300;
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideRight {
+      from { opacity: 0; transform: translateX(-24px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-fade-up { animation: fadeSlideUp 0.6s ease-out both; }
+    .animate-fade-right { animation: fadeSlideRight 0.7s ease-out both; }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="min-h-screen bg-surface-50 antialiased">
+
+  <div class="flex min-h-screen">
+
+    <!-- Left branding panel -->
+    <div class="hidden lg:flex lg:w-1/2 bg-surface-900 relative overflow-hidden flex-col justify-between p-12">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-brand-500 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-brand-400 rounded-full blur-3xl translate-x-1/4 translate-y-1/4"></div>
+      </div>
+
+      <div class="relative z-10 animate-fade-right">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold text-white tracking-tight">StockFlow</span>
+        </div>
+      </div>
+
+      <div class="relative z-10 animate-fade-right stagger-2">
+        <h1 class="text-4xl font-bold text-white leading-tight mb-6">
+          G&eacute;rez votre stock<br>
+          <span class="text-brand-400">en toute simplicit&eacute;.</span>
+        </h1>
+        <p class="text-surface-300 text-lg leading-relaxed max-w-md">
+          Suivi en temps r&eacute;el, alertes intelligentes et tableaux de bord pour optimiser
+          votre cha&icirc;ne d'approvisionnement.
+        </p>
+      </div>
+
+      <div class="relative z-10 flex items-center gap-6 animate-fade-right stagger-3">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+          <span class="text-surface-300 text-sm">99.9% uptime</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-brand-400 rounded-full"></div>
+          <span class="text-surface-300 text-sm">Chiffrement SSL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-white">
+      <div class="w-full max-w-md">
+
+        <!-- Mobile logo -->
+        <div class="lg:hidden flex items-center gap-3 mb-8 animate-fade-up">
+          <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold text-surface-900 tracking-tight">StockFlow</span>
+        </div>
+
+        <div class="animate-fade-up stagger-1">
+          <h2 class="text-3xl font-bold text-surface-900 mb-2">Bon retour</h2>
+          <p class="text-surface-700 mb-8">Connectez-vous pour acc&eacute;der &agrave; votre tableau de bord.</p>
+        </div>
+
+        {% if messages %}
+        <div class="space-y-3 mb-6 animate-fade-up stagger-2">
+          {% for message in messages %}
+          <div class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
+            {% if message.tags == 'error' %}bg-rose-50 text-rose-700 border border-rose-200
+            {% elif message.tags == 'success' %}bg-emerald-50 text-emerald-700 border border-emerald-200
+            {% elif message.tags == 'warning' %}bg-amber-50 text-amber-700 border border-amber-200
+            {% else %}bg-brand-50 text-brand-700 border border-brand-200{% endif %}">
+            {% if message.tags == 'error' %}
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% elif message.tags == 'success' %}
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% else %}
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% endif %}
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="space-y-5 animate-fade-up stagger-3">
+          {% csrf_token %}
+
+          <div>
+            <label for="id_email" class="block text-sm font-semibold text-surface-800 mb-1.5">Adresse e-mail</label>
+            <input type="email" name="email" id="id_email" class="form-input" placeholder="vous@exemple.com" required autofocus>
+          </div>
+
+          <div>
+            <label for="id_password" class="block text-sm font-semibold text-surface-800 mb-1.5">Mot de passe</label>
+            <input type="password" name="password" id="id_password" class="form-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" class="w-4 h-4 rounded border-surface-300 text-brand-500 focus:ring-brand-500 transition duration-300">
+              <span class="text-surface-700">Se souvenir de moi</span>
+            </label>
+            <a href="#" class="text-brand-500 hover:text-brand-700 font-medium transition-colors duration-300">Mot de passe oubli&eacute; ?</a>
+          </div>
+
+          <button type="submit"
+            class="w-full py-3 px-6 bg-gradient-to-r from-brand-600 to-brand-700 text-white font-semibold
+                   rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30
+                   hover:-translate-y-0.5 active:translate-y-0
+                   transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
+            Se connecter
+          </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-surface-700 animate-fade-up stagger-4">
+          Pas encore de compte ?
+          <a href="{% url 'register' %}" class="font-semibold text-brand-500 hover:text-brand-700 transition-colors duration-300">
+            Cr&eacute;er un compte
+          </a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
